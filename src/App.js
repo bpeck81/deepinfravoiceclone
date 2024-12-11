@@ -331,7 +331,7 @@ fetch('${apiUrl}/inference/deepinfra/tts', {
     'Authorization': 'Bearer ${userApiKey}',
   },
   body: JSON.stringify({
-    text: "${processedText}",
+    text: processedText,
     voice_id: "${selectedVoice?.voice_id || ''}",
     language_code: "en",
     speed: ${speed},
