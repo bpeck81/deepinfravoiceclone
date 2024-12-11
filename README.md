@@ -1,13 +1,13 @@
-# DeepInfra TTS Dashboard
+# TTS Voice Cloning Studio
 
-A custom dashboard designed to enhance the user experience of working with Infra's TTP AI model. This tool provides a more intuitive and efficient way to interact with the TTP AI model, overcoming the limitations of Infra's demo app.
+A custom dashboard designed to enhance the user experience of working with Infra's TTS AI model. This tool provides a more intuitive and efficient way to interact with the TTS AI model, overcoming the limitations of Infra's demo app.
 
 ## Demo Link
 You can try the app here:
-[Coming Soon]()
+[Voice Clone Studio](https://main.d17y0kc12abj2s.amplifyapp.com/)
 
-Explore the original Infra TTP AI model here:
-[Infra TTP AI Model Demo](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
+Explore the original Infra TTS AI model here:
+[Legacy Version](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
 
 ## App Screenshot
 
@@ -22,7 +22,7 @@ Explore the original Infra TTP AI model here:
 
 ## Why This Dashboard?
 
-Infra's official demo app for the TTP AI model is functional but lacks usability features. This dashboard was built to:
+DeepInfra's official demo app for the TTP AI model is functional but lacks usability features. This dashboard was built to:
 
 - Provide a better user experience.
 - Enable more customization and flexibility.
