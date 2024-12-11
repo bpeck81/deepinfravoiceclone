@@ -26,7 +26,7 @@ const App = () => {
       const response = await axios.get(`${apiUrl}/voices`, {
         headers: { Authorization: `Bearer ${userApiKey}` },
       });
-      console.log('voices',response.data.voices);
+      console.log('voices', response.data.voices);
       return response.data.voices?.sort((a, b) => {
         if (a.user_id === 'preset') return 1;
         return new Date(b.created_at) - new Date(a.created_at);
@@ -88,7 +88,7 @@ const App = () => {
 
     const formData = new FormData();
     // formData.append('audio', newVoice.audio); // Attach the audio file directly
-    console.log('adding',newVoice);
+    console.log('adding', newVoice);
     formData.append('files', newVoice.audio); // Attach the audio file directly
     formData.append('name', newVoice.name || "Default Name");
     formData.append('description', newVoice.description || "Default Description");
@@ -263,7 +263,22 @@ const App = () => {
   .then(data => {
     console.log(data);
   })
-  .catch(error => console.error(error));`
+  .catch(error => console.error(error));
+  //handle and control pitch
+  const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, '');
+  const audioBlob = new Blob([Uint8Array.from(atob(base64Audio), (c) => c.charCodeAt(0))], { type: 'audio/wav' });
+  const audioUrl = URL.createObjectURL(audioBlob);
+  const audioContext = new AudioContext();
+  const audioBuffer = await audioContext.decodeAudioData(await audioBlob.arrayBuffer());
+
+  const source = audioContext.createBufferSource();
+  source.buffer = audioBuffer;
+
+  source.playbackRate.value = parseFloat(pitch);
+  source.connect(audioContext.destination);
+  source.start();
+  
+  `
                 }
               </pre>
             </div>
@@ -301,7 +316,7 @@ const App = () => {
             <button onClick={playVoice} disabled={isPlaying}>
               {isPlaying ? 'Playing...' : 'Play Voice'}
             </button>
-            <button style={{backgroundColor:'lightpink'}} onClick={() => handleDeleteVoice(selectedVoice.voice_id)}>Delete Voice</button>
+            <button style={{ backgroundColor: 'lightpink' }} onClick={() => handleDeleteVoice(selectedVoice.voice_id)}>Delete Voice</button>
           </div>
         )}
 
