@@ -332,10 +332,12 @@ const App = () => {
     console.log(data);
   })
   .catch(error => console.error(error));
-  //handle and control pitch
+  //handle output format
   const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, ''); 
   const audioBlob = new Blob([Uint8Array.from(atob(base64Audio), (c) => c.charCodeAt(0))], { type: 'audio/wav' });
   const audioUrl = URL.createObjectURL(audioBlob);
+
+  //control pitch
   const audioContext = new AudioContext();
   const audioBuffer = await audioContext.decodeAudioData(await audioBlob.arrayBuffer());
 
