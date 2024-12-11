@@ -160,7 +160,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1 className="app-header">Voice Manager</h1>
+      <h1 className="app-header">DeepInfra Voice Studio</h1>
       {errorMessage && <div className="error-banner" style={{ backgroundColor: 'salmon', color: 'white', padding: '10px', marginBottom: '20px' }}>{errorMessage}</div>}
       <div className="app-content">
         <div>
@@ -277,6 +277,7 @@ const App = () => {
               id="play-speed"
               type="number"
               placeholder="Speed (e.g., 1.0)"
+              step={0.1}
               value={speed}
               onChange={(e) => setSpeed(e.target.value)}
             />
@@ -284,6 +285,7 @@ const App = () => {
             <input
               id="play-pitch"
               type="number"
+              step={0.01}
               placeholder="Pitch (e.g., 1.0)"
               value={pitch}
               onChange={(e) => setPitch(e.target.value)}
@@ -291,7 +293,7 @@ const App = () => {
             <button onClick={playVoice} disabled={isPlaying}>
               {isPlaying ? 'Playing...' : 'Play Voice'}
             </button>
-            <button onClick={() => handleDeleteVoice(selectedVoice.voice_id)}>Delete Voice</button>
+            <button style={{backgroundColor:'lightpink'}} onClick={() => handleDeleteVoice(selectedVoice.voice_id)}>Delete Voice</button>
           </div>
         )}
 
