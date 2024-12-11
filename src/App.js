@@ -174,7 +174,7 @@ const App = () => {
     <div className="app-container">
       <h1 className="app-header">DeepInfra Voice Studio</h1>
       <h2 className='app-subheader'>Text to speech voice cloning</h2>
-      <div className="error-banner" style={{ backgroundColor: 'salmon', opacity:errorMessage === ''?0:1, color: 'white', height:20, padding: '10px', marginBottom: '20px' }}>{errorMessage}</div>
+      <div className="error-banner" style={{ backgroundColor: 'salmon', opacity: errorMessage === '' ? 0 : 1, color: 'white', height: 20, padding: '10px', marginBottom: '20px' }}>{errorMessage}</div>
       <div className="app-content">
         <div>
           <div className="api-key-section">
@@ -196,7 +196,7 @@ const App = () => {
             <a href='https://deepinfra.com/dash/api_keys' style={{ color: 'black' }}>Get API Key Here</a>
             <br />
             <br />
-            <text style={{fontSize:14}}>You need an API key to use the app.</text>
+            <text style={{ fontSize: 14 }}>You need an API key to use the app.</text>
           </div>
 
           <div className="add-voice-section">
@@ -245,32 +245,71 @@ const App = () => {
           </div>
         </div>
 
-        <div>
-          <div className="voice-management-section">
-            <div className="voice-list-section">
-              <h2>3. Voices</h2>
-              <p>Total Voices: {voices.length}</p>
-              <div className="voice-list">
-                {voices.map((voice) => (
-                  <div
-                    key={voice.voice_id}
-                    className={`voice-item ${selectedVoice?.voice_id === voice.voice_id ? 'selected' : ''}`}
-                    onClick={() => setSelectedVoice(voice)}
-                    style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-                  >
-                    <h3>{voice.name}</h3>
-                    <p>ID: {voice.voice_id}</p>
-                    <p>{voice.description}</p>
-                    {/* <p>{new Date(voice.created_at).toLocaleString()}</p> */}
-
-                    {/* <p>{(new Date(voice.created_at)).toTimeString()} {(new Date(voice.created_at)).toTimeString()}</p> */}
-                  </div>
-                ))}
-              </div>
+        <div className="voice-management-section">
+          <div className="voice-list-section">
+            <h2>3. Voices</h2>
+            <p>Total Voices: {voices.length}</p>
+            <div className="voice-list">
+              {voices.map((voice) => (
+                <div
+                  key={voice.voice_id}
+                  className={`voice-item ${selectedVoice?.voice_id === voice.voice_id ? 'selected' : ''}`}
+                  onClick={() => setSelectedVoice(voice)}
+                  style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+                >
+                  <h3>{voice.name}</h3>
+                  <p>ID: {voice.voice_id}</p>
+                  <p>{voice.description}</p>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
 
-          {/* {selectedVoice && ( */}
+        <div style={{ marginLeft: '195px' }}>
+          {/* no idea why i need to add that margin code */}
+
+          <div className="voice-action-section">
+            <h2>4. Selected Voice: {selectedVoice?.name}</h2>
+            <label htmlFor="play-text">Text to Play</label>
+            <textarea
+              style={{ height: '100px', width: '100%', fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+              id="play-text"
+              type="text"
+              placeholder="Enter text to play"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+            />
+            <label htmlFor="play-speed">Speed</label>
+            <input
+              id="play-speed"
+              type="number"
+              placeholder="Speed (e.g., 1.0)"
+              step={0.1}
+              value={speed}
+              onChange={(e) => setSpeed(e.target.value)}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+            />
+            <label htmlFor="play-pitch">Pitch</label>
+            <input
+              id="play-pitch"
+              type="number"
+              step={0.01}
+              placeholder="Pitch (e.g., 1.0)"
+              value={pitch}
+              onChange={(e) => setPitch(e.target.value)}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+            />
+            {selectedVoice && (
+
+              <>
+                <button onClick={playVoice} disabled={isPlaying} style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
+                  {isPlaying ? 'Playing...' : 'Play Voice'}
+                </button>
+                <button style={{ backgroundColor: 'lightpink', fontFamily: 'Arial, sans-serif', fontSize: '16px' }} onClick={() => handleDeleteVoice(selectedVoice?.voice_id)}>Delete Voice</button>
+              </>
+            )}
+          </div>
           <div className="api-call-section">
             <h2>5. API Call</h2>
             <pre style={{ fontFamily: 'Courier New, monospace', fontSize: '14px' }}>
@@ -306,50 +345,12 @@ const App = () => {
   source.playbackRate.value = parseFloat(pitch);
   source.connect(audioContext.destination);
   source.start();
-  
-  `
+`
               }
             </pre>
           </div>
-          {/* )} */}
-        </div>
-        <div className="voice-action-section">
-          <h2>4. Selected Voice: {selectedVoice?.name}</h2>
-          <label htmlFor="play-text">Text to Play</label>
-          <textarea
-            style={{ height: '100px', width: '100%', fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-            id="play-text"
-            type="text"
-            placeholder="Enter text to play"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-          />
-          <label htmlFor="play-speed">Speed</label>
-          <input
-            id="play-speed"
-            type="number"
-            placeholder="Speed (e.g., 1.0)"
-            step={0.1}
-            value={speed}
-            onChange={(e) => setSpeed(e.target.value)}
-            style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-          />
-          <label htmlFor="play-pitch">Pitch</label>
-          <input
-            id="play-pitch"
-            type="number"
-            step={0.01}
-            placeholder="Pitch (e.g., 1.0)"
-            value={pitch}
-            onChange={(e) => setPitch(e.target.value)}
-            style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-          />
-          <button onClick={playVoice} disabled={isPlaying} style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
-            {isPlaying ? 'Playing...' : 'Play Voice'}
-          </button>
-          <button style={{ backgroundColor: 'lightpink', fontFamily: 'Arial, sans-serif', fontSize: '16px' }} onClick={() => handleDeleteVoice(selectedVoice?.voice_id)}>Delete Voice</button>
-        </div>
 
+        </div>
       </div>
     </div>
   );

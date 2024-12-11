@@ -196,7 +196,8 @@ body {
 
 .api-call-section {
   flex: none;
-  width: 500px;
+  width: 350px;
+  margin-top: 30px;
   /* Set fixed width */
   max-height: 300px;
   background: #fff;
