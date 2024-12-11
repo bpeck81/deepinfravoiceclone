@@ -26,7 +26,11 @@ const App = () => {
       const response = await axios.get(`${apiUrl}/voices`, {
         headers: { Authorization: `Bearer ${userApiKey}` },
       });
-      return response.data.voices?.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) || [];
+      console.log('voices',response.data.voices);
+      return response.data.voices?.sort((a, b) => {
+        if (a.user_id === 'preset') return 1;
+        return new Date(b.created_at) - new Date(a.created_at);
+      }) || [];
     },
     {
       enabled: !!userApiKey, // Only fetch if API key is present
@@ -230,6 +234,7 @@ const App = () => {
                     <h3>{voice.name}</h3>
                     <p>ID: {voice.voice_id}</p>
                     <p>{voice.description}</p>
+                    <p>{(new Date(voice.created_at)).toISOString()}</p>
                   </div>
                 ))}
               </div>
