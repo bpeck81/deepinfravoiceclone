@@ -1,12 +1,12 @@
 # TTS Voice Cloning Studio
 
-A custom dashboard designed to enhance the user experience of working with Infra's TTS AI model. This tool provides a more intuitive and efficient way to interact with the TTS AI model, overcoming the limitations of Infra's demo app.
+A custom dashboard designed to enhance the user experience of working with DeepInfra's TTS AI model. This tool provides a more intuitive and efficient way to interact with the TTS AI model, overcoming the limitations of DeepInfra's demo app.
 
 ## Demo Link
 Use the App Here:
 [Voice Clone Studio](https://main.d17y0kc12abj2s.amplifyapp.com/)
 
-Original Infra TTS AI UI here:
+Original DeepInfra TTS AI UI Here:
 [Legacy Version](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
 
 ## App Screenshot
@@ -17,7 +17,7 @@ Original Infra TTS AI UI here:
 
 - **Improved Interface**: A user-friendly and intuitive design for working with the TTP AI model.
 - **Custom Enhancements**: Added features and workflows to address limitations in the demo app.
-- **Seamless Integration**: Easily interact with the Infra TTP AI model.
+- **Seamless Integration**: Easily interact with the DeepInfra TTP AI model.
 - **Enhanced Performance**: Optimized for faster and smoother operations.
 
 ## Why This Dashboard?
@@ -50,12 +50,12 @@ DeepInfra's official demo app for the TTP AI model is functional but lacks usabi
    http://localhost:3000
    ```
 
-5. Add your Infra API key to get started.
+5. Add your DeepInfra API key to get started.
 
 ## Requirements
 
 - Node.js >= 14.0
-- Infra API key (get yours from [Infra](https://deepinfra.com/dash/api_keys))
+- DeepInfra API key (get yours from [DeepInfra](https://deepinfra.com/dash/api_keys))
 
 ## Tech Stack
 
@@ -67,7 +67,7 @@ DeepInfra's official demo app for the TTP AI model is functional but lacks usabi
 
 - [ ] Add user authentication.
 - [ ] Implement usage analytics.
-- [ ] Support additional AI models from Infra.
+- [ ] Support additional AI models from DeepInfra.
 
 ## Contributing
 
@@ -94,6 +94,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-- [Infra TTP AI Model](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
+- [DeepInfra TTP AI Model](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
 - [React](https://reactjs.org/)
 - [React Query](https://react-query.tanstack.com/)
