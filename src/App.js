@@ -314,14 +314,24 @@ const App = () => {
             <h2>5. API Call</h2>
             <pre style={{ fontFamily: 'Courier New, monospace', fontSize: '14px' }}>
               {
-                `fetch('${apiUrl}/inference/deepinfra/tts', {
+                `
+const processedText = inputText
+.replace(/\n/g, '')
+.replace(/"/g, '')
+.replace(/-/g, '')
+.replace(/[^a-zA-Z0-9\s]/g, '')
+.replace(/\.+/g, '.')
+.replace(/[“”‘’]/g, '')
+.replace(/\s+/g, ' ')
+.trim();
+fetch('${apiUrl}/inference/deepinfra/tts', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ${userApiKey}',
   },
   body: JSON.stringify({
-    text: "${inputText?.slice(0, 100)}",
+    text: "${processedText}",
     voice_id: "${selectedVoice?.voice_id || ''}",
     language_code: "en",
     speed: ${speed},
