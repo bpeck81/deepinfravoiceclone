@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 const App = () => {
   const [newVoice, setNewVoice] = useState({ name: '', description: '', audio: null });
   const [selectedVoice, setSelectedVoice] = useState(null);
-  const [inputText, setInputText] = useState('The ghost lets out a hearty laugh, and the chandelier above us sways hesitantly. "Ghost pie, huh? Haven\'t heard that one before. But I do like a good prankster! ');
+  const [inputText, setInputText] = useState('The ghost lets out a hearty laugh, and the chandelier above us sways hesitantly. "Haven\'t heard that one before. But I do like a good prankster! ');
   const [speed, setSpeed] = useState(1.2);
   const [pitch, setPitch] = useState(1.05);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -182,6 +182,7 @@ const App = () => {
                 setCookie('apiKey', e.target.value, 30);
                 setUserApiKey(e.target.value);
               }}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
           </div>
 
@@ -195,6 +196,7 @@ const App = () => {
                 const fileName = e.target.files[0]?.name.split('.')?.[0];
                 setNewVoice({ ...newVoice, audio: e.target.files[0], name: fileName, description: fileName });
               }}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
             <label htmlFor="voice-name">Name</label>
             <input
@@ -203,6 +205,7 @@ const App = () => {
               placeholder="Name"
               value={newVoice.name}
               onChange={(e) => setNewVoice({ ...newVoice, name: e.target.value })}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
             <label htmlFor="voice-description">Description</label>
             <input
@@ -211,8 +214,9 @@ const App = () => {
               placeholder="Description"
               value={newVoice.description}
               onChange={(e) => setNewVoice({ ...newVoice, description: e.target.value })}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
-            <button onClick={handleAddVoice} disabled={isAdding}>
+            <button onClick={handleAddVoice} disabled={isAdding} style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
               {isAdding ? 'Adding...' : 'Add Voice'}
             </button>
           </div>
@@ -229,6 +233,7 @@ const App = () => {
                     key={voice.voice_id}
                     className={`voice-item ${selectedVoice?.voice_id === voice.voice_id ? 'selected' : ''}`}
                     onClick={() => setSelectedVoice(voice)}
+                    style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
                   >
                     <h3>{voice.name}</h3>
                     <p>ID: {voice.voice_id}</p>
@@ -243,7 +248,7 @@ const App = () => {
           {selectedVoice && (
             <div className="api-call-section">
               <h2>API Call</h2>
-              <pre>
+              <pre style={{ fontFamily: 'Courier New, monospace', fontSize: '14px' }}>
                 {
                   `fetch('${apiUrl}/inference/deepinfra/tts', {
   method: 'POST',
@@ -264,7 +269,7 @@ const App = () => {
   })
   .catch(error => console.error(error));
   //handle and control pitch
-  const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, '');
+  const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, ''); 
   const audioBlob = new Blob([Uint8Array.from(atob(base64Audio), (c) => c.charCodeAt(0))], { type: 'audio/wav' });
   const audioUrl = URL.createObjectURL(audioBlob);
   const audioContext = new AudioContext();
@@ -287,7 +292,8 @@ const App = () => {
           <div className="voice-action-section">
             <h2>Selected Voice: {selectedVoice?.name}</h2>
             <label htmlFor="play-text">Text to Play</label>
-            <input
+            <textarea
+              style={{ height: '100px', width: '100%', fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
               id="play-text"
               type="text"
               placeholder="Enter text to play"
@@ -302,6 +308,7 @@ const App = () => {
               step={0.1}
               value={speed}
               onChange={(e) => setSpeed(e.target.value)}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
             <label htmlFor="play-pitch">Pitch</label>
             <input
@@ -311,11 +318,12 @@ const App = () => {
               placeholder="Pitch (e.g., 1.0)"
               value={pitch}
               onChange={(e) => setPitch(e.target.value)}
+              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
-            <button onClick={playVoice} disabled={isPlaying}>
+            <button onClick={playVoice} disabled={isPlaying} style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
               {isPlaying ? 'Playing...' : 'Play Voice'}
             </button>
-            <button style={{ backgroundColor: 'lightpink' }} onClick={() => handleDeleteVoice(selectedVoice.voice_id)}>Delete Voice</button>
+            <button style={{ backgroundColor: 'lightpink', fontFamily: 'Arial, sans-serif', fontSize: '16px' }} onClick={() => handleDeleteVoice(selectedVoice.voice_id)}>Delete Voice</button>
           </div>
         )}
 
