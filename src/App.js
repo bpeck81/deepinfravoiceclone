@@ -26,7 +26,6 @@ const App = () => {
       const response = await axios.get(`${apiUrl}/voices`, {
         headers: { Authorization: `Bearer ${userApiKey}` },
       });
-      console.log('voices', response.data.voices);
       return response.data.voices?.sort((a, b) => {
         if (a.user_id === 'preset') return 1;
         return new Date(b.created_at) - new Date(a.created_at);
