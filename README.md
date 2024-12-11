@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# Infra TTP Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A custom dashboard designed to enhance the user experience of working with Infra's TTP AI model. This tool provides a more intuitive and efficient way to interact with the TTP AI model, overcoming the limitations of Infra's demo app.
 
-## Available Scripts
+## Demo Link
 
-In the project directory, you can run:
+Explore the original Infra TTP AI model here:
+[Infra TTP AI Model Demo](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
 
-### `npm start`
+## App Screenshot
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![App Screenshot](example.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **Improved Interface**: A user-friendly and intuitive design for working with the TTP AI model.
+- **Custom Enhancements**: Added features and workflows to address limitations in the demo app.
+- **Seamless Integration**: Easily interact with the Infra TTP AI model.
+- **Enhanced Performance**: Optimized for faster and smoother operations.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Why This Dashboard?
 
-### `npm run build`
+Infra's official demo app for the TTP AI model is functional but lacks usability features. This dashboard was built to:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Provide a better user experience.
+- Enable more customization and flexibility.
+- Simplify interaction with the TTP AI model.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to Use
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/your-repo-name/infra-ttp-dashboard.git
+   ```
 
-### `npm run eject`
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Open your browser and navigate to:
+   ```
+   http://localhost:3000
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+5. Add your Infra API key to get started.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Requirements
 
-## Learn More
+- Node.js >= 14.0
+- Infra API key (get yours from [Infra](https://deepinfra.com/dash/api_keys))
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Tech Stack
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Frontend**: React, React Query
+- **Styling**: CSS
+- **API Integration**: Axios
 
-### Code Splitting
+## Roadmap
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [ ] Add user authentication.
+- [ ] Implement usage analytics.
+- [ ] Support additional AI models from Infra.
 
-### Analyzing the Bundle Size
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Contributions are welcome! If you have suggestions or find issues, feel free to submit a pull request or open an issue.
 
-### Making a Progressive Web App
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Added new feature"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a pull request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
+This project is licensed under the [MIT License](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Acknowledgements
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Infra TTP AI Model](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
+- [React](https://reactjs.org/)
+- [React Query](https://react-query.tanstack.com/)
