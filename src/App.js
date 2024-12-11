@@ -315,7 +315,7 @@ const App = () => {
             <pre style={{ fontFamily: 'Courier New, monospace', fontSize: '14px' }}>
               {
                 `
-const processedText = inputText
+const processedText = ${inputText}
 .replace(/\n/g, '')
 .replace(/"/g, '')
 .replace(/-/g, '')
@@ -354,7 +354,7 @@ fetch('${apiUrl}/inference/deepinfra/tts', {
   const source = audioContext.createBufferSource();
   source.buffer = audioBuffer;
 
-  source.playbackRate.value = parseFloat(pitch);
+  source.playbackRate.value = parseFloat(${pitch});
   source.connect(audioContext.destination);
   source.start();
 `
