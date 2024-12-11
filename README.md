@@ -1,4 +1,4 @@
-# Infra TTP Dashboard
+# DeepInfra TTS Dashboard
 
 A custom dashboard designed to enhance the user experience of working with Infra's TTP AI model. This tool provides a more intuitive and efficient way to interact with the TTP AI model, overcoming the limitations of Infra's demo app.
 
