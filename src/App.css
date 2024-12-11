@@ -21,14 +21,16 @@ body {
 .app-content {
   display: flex;
   justify-content: center;
-  gap: 30px; /* Increased gap for better spacing */
+  gap: 30px;
+  /* Increased gap for better spacing */
   align-items: flex-start;
 }
 
 /* Add Voice Section */
 .add-voice-section {
   flex: none;
-  width: 350px; /* Set fixed width */
+  width: 350px;
+  /* Set fixed width */
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -73,7 +75,8 @@ body {
 /* Voice Management Section */
 .voice-management-section {
   flex: none;
-  width: 350px; /* Set fixed width */
+  width: 350px;
+  /* Set fixed width */
   display: flex;
   flex-direction: column;
   /* gap: 20px; */
@@ -110,6 +113,16 @@ body {
   transition: background-color 0.3s ease;
 }
 
+.voice-item h3 {
+  margin: 5px;
+  /* Remove unnecessary margins on text elements */
+}
+
+.voice-item p {
+  margin: 3px;
+  /* Remove unnecessary margins on text elements */
+}
+
 .voice-item:hover {
   background-color: #f0f0f5;
 }
@@ -128,7 +141,8 @@ body {
 
 .voice-action-section {
   flex: none;
-  width: 350px; /* Set fixed width */
+  width: 350px;
+  /* Set fixed width */
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -176,7 +190,8 @@ body {
 
 .api-call-section {
   flex: none;
-  width: 500px; /* Set fixed width */
+  width: 500px;
+  /* Set fixed width */
   max-height: 300px;
   background: #fff;
   border: 1px solid #ddd;
@@ -197,10 +212,18 @@ body {
   font-family: 'Courier New', Courier, monospace;
   overflow-x: auto;
   color: #333;
-  white-space: pre-wrap; /* Ensures code wraps properly */
-  word-wrap: break-word; /* Break long lines */
+  white-space: pre-wrap;
+  /* Ensures code wraps properly */
+  word-wrap: break-word;
+  /* Break long lines */
 }
+
 .api-key-section {
-margin-bottom: 30px;
-margin-left: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  margin-bottom: 30px;
 }
