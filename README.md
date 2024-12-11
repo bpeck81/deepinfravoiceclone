@@ -3,10 +3,10 @@
 A custom dashboard designed to enhance the user experience of working with Infra's TTS AI model. This tool provides a more intuitive and efficient way to interact with the TTS AI model, overcoming the limitations of Infra's demo app.
 
 ## Demo Link
-You can try the app here:
+Use the App Here:
 [Voice Clone Studio](https://main.d17y0kc12abj2s.amplifyapp.com/)
 
-Explore the original Infra TTS AI model here:
+Original Infra TTS AI UI here:
 [Legacy Version](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
 
 ## App Screenshot

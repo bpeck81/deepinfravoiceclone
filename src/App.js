@@ -172,7 +172,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1 className="app-header">Voice Studio</h1>
+      <h1 className="app-header">Voice Clone Studio</h1>
       <h2 className='app-subheader'>Text to speech voice cloning</h2>
       <div className="error-banner" style={{ backgroundColor: 'salmon', opacity: errorMessage === '' ? 0 : 1, color: 'white', height: 20, padding: '10px', marginBottom: '20px' }}>{errorMessage}</div>
       <div className="app-content">
