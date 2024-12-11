@@ -3,6 +3,8 @@
 A custom dashboard designed to enhance the user experience of working with Infra's TTP AI model. This tool provides a more intuitive and efficient way to interact with the TTP AI model, overcoming the limitations of Infra's demo app.
 
 ## Demo Link
+You can try the app here:
+[Coming Soon]()
 
 Explore the original Infra TTP AI model here:
 [Infra TTP AI Model Demo](https://deepinfra.com/deepinfra/tts?version=6c2b0d75eae4b7047358e3b6bd9325f857d43f77)
