@@ -26,7 +26,7 @@ const App = () => {
       const response = await axios.get(`${apiUrl}/voices`, {
         headers: { Authorization: `Bearer ${userApiKey}` },
       });
-      return response.data.voices?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) || [];
+      return response.data.voices?.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) || [];
     },
     {
       enabled: !!userApiKey, // Only fetch if API key is present
@@ -51,6 +51,7 @@ const App = () => {
       },
       onError: (error) => {
         setErrorMessage(error.response?.data?.message || 'An error occurred while adding the voice.');
+        console.error("Error adding voice:", error);
       },
     }
   );
@@ -82,7 +83,9 @@ const App = () => {
     }
 
     const formData = new FormData();
-    formData.append('audio', newVoice.audio); // Attach the audio file directly
+    // formData.append('audio', newVoice.audio); // Attach the audio file directly
+    console.log('adding',newVoice);
+    formData.append('files', newVoice.audio); // Attach the audio file directly
     formData.append('name', newVoice.name || "Default Name");
     formData.append('description', newVoice.description || "Default Description");
 
