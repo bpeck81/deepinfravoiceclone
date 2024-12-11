@@ -172,7 +172,7 @@ const App = () => {
         <div>
           <div className="api-key-section">
             <h2>API Key</h2>
-            <label htmlFor="api-key">Enter your API Key </label>
+            <label htmlFor="api-key">Enter Your API Key </label>
             <input
               id="api-key"
               type="text"
@@ -184,41 +184,49 @@ const App = () => {
               }}
               style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
             />
+            <br />
+            <br />
+            <a href='https://deepinfra.com/dash/api_keys' style={{ color: 'black' }}>Get API Key Here</a>
           </div>
 
           <div className="add-voice-section">
+
             <h2>Add Voice</h2>
-            <input
-              id="voice-audio"
-              type="file"
-              accept="audio/*"
-              onChange={(e) => {
-                const fileName = e.target.files[0]?.name.split('.')?.[0];
-                setNewVoice({ ...newVoice, audio: e.target.files[0], name: fileName, description: fileName });
-              }}
-              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-            />
-            <label htmlFor="voice-name">Name</label>
-            <input
-              id="voice-name"
-              type="text"
-              placeholder="Name"
-              value={newVoice.name}
-              onChange={(e) => setNewVoice({ ...newVoice, name: e.target.value })}
-              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-            />
-            <label htmlFor="voice-description">Description</label>
-            <input
-              id="voice-description"
-              type="text"
-              placeholder="Description"
-              value={newVoice.description}
-              onChange={(e) => setNewVoice({ ...newVoice, description: e.target.value })}
-              style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
-            />
-            <button onClick={handleAddVoice} disabled={isAdding} style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
-              {isAdding ? 'Adding...' : 'Add Voice'}
-            </button>
+              <div>
+                <input
+                  id="voice-audio"
+                  type="file"
+                  accept="audio/*"
+                  onChange={(e) => {
+                    const fileName = e.target.files[0]?.name.split('.')?.[0];
+                    setNewVoice({ ...newVoice, audio: e.target.files[0], name: fileName, description: fileName });
+                  }}
+                  style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+                />
+                <label htmlFor="voice-name">Name</label>
+                <input
+                  id="voice-name"
+                  type="text"
+                  placeholder="Name"
+                  value={newVoice.name}
+                  onChange={(e) => setNewVoice({ ...newVoice, name: e.target.value })}
+                  style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+                />
+                <label htmlFor="voice-description">Description</label>
+                <input
+                  id="voice-description"
+                  type="text"
+                  placeholder="Description"
+                  value={newVoice.description}
+                  onChange={(e) => setNewVoice({ ...newVoice, description: e.target.value })}
+                  style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}
+                />
+            {userApiKey && (
+                <button onClick={handleAddVoice} disabled={isAdding} style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
+                  {isAdding ? 'Adding...' : 'Add Voice'}
+                </button>
+            )}
+              </div>
           </div>
         </div>
 
