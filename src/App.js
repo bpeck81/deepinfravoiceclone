@@ -52,6 +52,7 @@ const App = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('voices');
+        refetch()
         setErrorMessage(''); // Clear any existing error messages
       },
       onError: (error) => {
@@ -70,10 +71,12 @@ const App = () => {
     },
     {
       onSuccess: () => {
+        refetch()
         queryClient.invalidateQueries('voices');
       },
       onError: (error) => {
         setErrorMessage(error.response?.data?.message || 'An error occurred while deleting the voice.');
+        refetch()
       },
     },
   );
@@ -170,11 +173,12 @@ const App = () => {
   return (
     <div className="app-container">
       <h1 className="app-header">DeepInfra Voice Studio</h1>
+      <h2 className='app-subheader'>Text to speech voice cloning</h2>
       <div className="error-banner" style={{ backgroundColor: 'salmon', opacity:errorMessage === ''?0:1, color: 'white', height:20, padding: '10px', marginBottom: '20px' }}>{errorMessage}</div>
       <div className="app-content">
         <div>
           <div className="api-key-section">
-            <h2>API Key</h2>
+            <h2>1. API Key</h2>
             <label htmlFor="api-key">Enter Your API Key </label>
             <input
               id="api-key"
@@ -197,7 +201,7 @@ const App = () => {
 
           <div className="add-voice-section">
 
-            <h2>Add Voice</h2>
+            <h2>2. Add Voice</h2>
             <div>
               <input
                 id="voice-audio"
@@ -233,7 +237,7 @@ const App = () => {
                 </button>
               )}
               <div style={{ paddingTop: 10 }}>
-                <text style={{ color: 'black', fontSize: 14 }}>{'Supports .m4a, .mp3 (not .wav)'}</text>
+                <text style={{ color: 'black', fontSize: 14 }}>{'Supports .m4a, .mp3 (not .wav but you can try...)'}</text>
                 <br />
                 <text style={{ color: 'black', fontSize: 14 }}>{'Seems to perform better with short clips, around 10 seconds.'}</text>
               </div>
@@ -244,7 +248,7 @@ const App = () => {
         <div>
           <div className="voice-management-section">
             <div className="voice-list-section">
-              <h2>Voices</h2>
+              <h2>3. Voices</h2>
               <p>Total Voices: {voices.length}</p>
               <div className="voice-list">
                 {voices.map((voice) => (
@@ -257,7 +261,9 @@ const App = () => {
                     <h3>{voice.name}</h3>
                     <p>ID: {voice.voice_id}</p>
                     <p>{voice.description}</p>
-                    <p>{(new Date(voice.created_at)).toLocaleTimeString()} {(new Date(voice.created_at)).toLocaleDateString()}</p>
+                    {/* <p>{new Date(voice.created_at).toLocaleString()}</p> */}
+
+                    {/* <p>{(new Date(voice.created_at)).toTimeString()} {(new Date(voice.created_at)).toTimeString()}</p> */}
                   </div>
                 ))}
               </div>
@@ -266,7 +272,7 @@ const App = () => {
 
           {/* {selectedVoice && ( */}
           <div className="api-call-section">
-            <h2>API Call</h2>
+            <h2>5. API Call</h2>
             <pre style={{ fontFamily: 'Courier New, monospace', fontSize: '14px' }}>
               {
                 `fetch('${apiUrl}/inference/deepinfra/tts', {
@@ -308,7 +314,7 @@ const App = () => {
           {/* )} */}
         </div>
         <div className="voice-action-section">
-          <h2>Selected Voice: {selectedVoice?.name}</h2>
+          <h2>4. Selected Voice: {selectedVoice?.name}</h2>
           <label htmlFor="play-text">Text to Play</label>
           <textarea
             style={{ height: '100px', width: '100%', fontFamily: 'Arial, sans-serif', fontSize: '16px' }}

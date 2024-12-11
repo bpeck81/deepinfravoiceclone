@@ -17,6 +17,12 @@ body {
   margin-bottom: 20px;
   color: #333;
 }
+.app-subheader {
+  text-align: center;
+  font-size:1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
 
 .app-content {
   display: flex;
