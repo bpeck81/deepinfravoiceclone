@@ -337,7 +337,8 @@ fetch('${apiUrl}/inference/deepinfra/tts', {
   },
   body: JSON.stringify({
     text: processedText,
-    voice_id: "${selectedVoice?.voice_id || ''}",
+    voice_id: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? undefined : ${selectedVoice.voice_id},
+    preset_voice: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? ${selectedVoice.voice_id} : undefined,
     language_code: "en",
     speed: ${speed},
   })
