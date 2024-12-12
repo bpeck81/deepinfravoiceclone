@@ -281,40 +281,76 @@ const App = () => {
       setSelectedVoice(null);
     }
   };
-
   const playVoice = async () => {
     if (!selectedVoice) return;
     setIsPlaying(true);
     try {
+      // Configurable number of sentences to group
+      const groupSize = 1; // Change this to group by 2, 3, 4, etc.
+  
+      // Preprocess the input text
       const processedText = inputText
-        .replace(/\n/g, '')
+        .replace(/\n/g, ' ')
         .replace(/"/g, '')
         .replace(/-/g, '')
-        .replace(/[^a-zA-Z0-9\s]/g, '')
+        .replace(/[^a-zA-Z0-9\s.]/g, '') // Allow periods for sentence splitting
         .replace(/\.+/g, '.')
         .replace(/[“”‘’]/g, '')
         .replace(/\s+/g, ' ')
         .trim();
-
-      const response = await axios.post(`${apiUrl}/inference/deepinfra/tts`, {
-        text: processedText,
-        voice_id: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? undefined : selectedVoice.voice_id,
-        preset_voice: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? selectedVoice.voice_id : undefined,
-        language_code: "en",
-        speed: parseFloat(speed),
-      }, {
-        headers: { Authorization: `Bearer ${userApiKey}`, 'Content-Type': 'application/json' },
-      });
-
-      const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, '');
-      const audioBlob = new Blob([Uint8Array.from(atob(base64Audio), (c) => c.charCodeAt(0))], { type: 'audio/wav' });
-      const audioUrl = URL.createObjectURL(audioBlob);
+  
+      // Split the text into sentences using '.' and ensure proper cleanup
+      const sentences = processedText.split('.').map(sentence => sentence.trim()).filter(sentence => sentence);
+  
+      // Group sentences based on groupSize
+      const groups = [];
+      for (let i = 0; i < sentences.length; i += groupSize) {
+        const group = sentences.slice(i, i + groupSize).join('. ');
+        groups.push(group + '.'); // Add a period at the end
+      }
+  
       const audioContext = new AudioContext();
-      const audioBuffer = await audioContext.decodeAudioData(await audioBlob.arrayBuffer());
-
+      const audioBuffers = [];
+  
+      // Process each group of sentences and fetch audio
+      for (const group of groups) {
+        console.log(`Processing group: "${group}"`); // Debugging to see the groups
+  
+        const response = await axios.post(`${apiUrl}/inference/deepinfra/tts`, {
+          text: group,
+          voice_id: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? undefined : selectedVoice.voice_id,
+          preset_voice: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? selectedVoice.voice_id : undefined,
+          language_code: "en",
+          speed: parseFloat(speed),
+        }, {
+          headers: { Authorization: `Bearer ${userApiKey}`, 'Content-Type': 'application/json' },
+        });
+  
+        const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, '');
+        const audioBlob = new Blob([Uint8Array.from(atob(base64Audio), (c) => c.charCodeAt(0))], { type: 'audio/wav' });
+        const audioBuffer = await audioContext.decodeAudioData(await audioBlob.arrayBuffer());
+        audioBuffers.push(audioBuffer);
+      }
+  
+      // Stitch the audio together
+      const totalLength = audioBuffers.reduce((sum, buffer) => sum + buffer.length, 0);
+      const outputBuffer = audioContext.createBuffer(
+        audioBuffers[0].numberOfChannels,
+        totalLength,
+        audioBuffers[0].sampleRate
+      );
+  
+      let offset = 0;
+      audioBuffers.forEach((buffer) => {
+        for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+          outputBuffer.copyToChannel(buffer.getChannelData(channel), channel, offset);
+        }
+        offset += buffer.length;
+      });
+  
+      // Play the stitched audio
       const source = audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-
+      source.buffer = outputBuffer;
       source.playbackRate.value = parseFloat(pitch);
       source.connect(audioContext.destination);
       source.start();
@@ -325,6 +361,52 @@ const App = () => {
       setIsPlaying(false);
     }
   };
+  
+  
+
+  // const playVoice = async () => {
+  //   if (!selectedVoice) return;
+  //   setIsPlaying(true);
+  //   try {
+  //     const processedText = inputText
+  //       .replace(/\n/g, '')
+  //       .replace(/"/g, '')
+  //       .replace(/-/g, '')
+  //       .replace(/[^a-zA-Z0-9\s]/g, '')
+  //       .replace(/\.+/g, '.')
+  //       .replace(/[“”‘’]/g, '')
+  //       .replace(/\s+/g, ' ')
+  //       .trim();
+
+  //     const response = await axios.post(`${apiUrl}/inference/deepinfra/tts`, {
+  //       text: processedText,
+  //       voice_id: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? undefined : selectedVoice.voice_id,
+  //       preset_voice: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? selectedVoice.voice_id : undefined,
+  //       language_code: "en",
+  //       speed: parseFloat(speed),
+  //     }, {
+  //       headers: { Authorization: `Bearer ${userApiKey}`, 'Content-Type': 'application/json' },
+  //     });
+
+  //     const base64Audio = response.data.audio.replace(/^data:audio\/\w+;base64,/, '');
+  //     const audioBlob = new Blob([Uint8Array.from(atob(base64Audio), (c) => c.charCodeAt(0))], { type: 'audio/wav' });
+  //     const audioUrl = URL.createObjectURL(audioBlob);
+  //     const audioContext = new AudioContext();
+  //     const audioBuffer = await audioContext.decodeAudioData(await audioBlob.arrayBuffer());
+
+  //     const source = audioContext.createBufferSource();
+  //     source.buffer = audioBuffer;
+
+  //     source.playbackRate.value = parseFloat(pitch);
+  //     source.connect(audioContext.destination);
+  //     source.start();
+  //   } catch (error) {
+  //     setErrorMessage('An error occurred while playing the voice.');
+  //     console.error("Error playing voice:", error);
+  //   } finally {
+  //     setIsPlaying(false);
+  //   }
+  // };
 
   useEffect(() => {
     document.title = "Voice Clone Studio";
