@@ -155,6 +155,10 @@ const App = () => {
       setIsPlaying(false);
     }
   };
+  useEffect(() => {
+    document.title = "Voice Clone Studio";
+  }, []);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -174,7 +178,7 @@ const App = () => {
     <div className="app-container">
       <h1 className="app-header">Voice Clone Studio</h1>
       <h2 className='app-subheader'>Text to speech voice cloning</h2>
-      <a  href='https://github.com/bpeck81/deepinfravoiceclone' style={{textAlign:'center', display:'block'}}>source code</a>
+      <a href='https://github.com/bpeck81/deepinfravoiceclone' style={{ textAlign: 'center', display: 'block' }}>source code</a>
       <div className="error-banner" style={{ backgroundColor: 'salmon', opacity: errorMessage === '' ? 0 : 1, color: 'white', height: 20, padding: '10px', marginBottom: '20px' }}>{errorMessage}</div>
       <div className="app-content">
         <div>
