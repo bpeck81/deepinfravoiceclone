@@ -535,7 +535,7 @@ const App = () => {
               <div style={{ paddingTop: 10 }}>
                 <text style={{ color: 'black', fontSize: 14 }}>{'Supports .m4a, .mp3 (not .wav but you can try...)'}</text>
                 <br />
-                <text style={{ color: 'black', fontSize: 14 }}>{'Seems to perform better with clips around 20 seconds.'}</text>
+                <text style={{ color: 'black', fontSize: 14 }}>{'Seems to perform better with clips around 10-20 seconds.'}</text>
               </div>
             </div>
           </div>
