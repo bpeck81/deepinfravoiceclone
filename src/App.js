@@ -21,6 +21,7 @@ const App = () => {
 
   // New states for clipping
   const [clipEnabled, setClipEnabled] = useState(false);
+  const [smoothAudio, setSmoothAudio] = useState(false);
   const [clipDuration, setClipDuration] = useState(10);
 
   const apiUrl = "https://api.deepinfra.com/v1";
@@ -99,33 +100,22 @@ const App = () => {
       const audioData = await newVoice.audio.arrayBuffer();
       const originalBuffer = await audioContext.decodeAudioData(audioData);
 
-      let clippedBuffer = originalBuffer;
+      // Optionally clip the audio to the desired duration
+      const bufferToProcess = clipEnabled
+        ? clipAudio(audioContext, originalBuffer, clipDuration)
+        : originalBuffer;
 
-      if (clipEnabled) {
-        const desiredDuration = parseFloat(clipDuration);
-        const duration = Math.min(originalBuffer.duration, desiredDuration);
+      // Process the audio for better quality
+      const processedBuffer = smoothAudio
+        ? await processAudio(audioContext, bufferToProcess)
+        : bufferToProcess
 
-        // Create a new clipped buffer
-        const numFrames = Math.floor(duration * originalBuffer.sampleRate);
-        clippedBuffer = audioContext.createBuffer(
-          originalBuffer.numberOfChannels,
-          numFrames,
-          originalBuffer.sampleRate
-        );
-
-        // Copy channel data up to numFrames
-        for (let ch = 0; ch < originalBuffer.numberOfChannels; ch++) {
-          const channelData = originalBuffer.getChannelData(ch);
-          clippedBuffer.getChannelData(ch).set(channelData.subarray(0, numFrames));
-        }
-      }
-
-      // Convert clippedBuffer (or entire buffer if not clipped) to WAV
-      const wavData = encodeWAV(clippedBuffer);
-      const clippedBlob = new Blob([wavData], { type: 'audio/wav' });
+      // Convert processed audio to WAV
+      const wavData = encodeWAV(processedBuffer);
+      const processedBlob = new Blob([wavData], { type: 'audio/wav' });
 
       const formData = new FormData();
-      formData.append('files', clippedBlob, 'clipped_audio.wav');
+      formData.append('files', processedBlob, 'processed_audio.wav');
       formData.append('name', newVoice.name || "Default Name");
       formData.append('description', newVoice.description || "Default Description");
 
@@ -133,14 +123,105 @@ const App = () => {
         onSettled: () => setIsAdding(false),
       });
 
-      setNewVoice({ name: '', description: '', audio: null });
+      // setNewVoice({ name: '', description: '', audio: null });
     } catch (error) {
       setErrorMessage('An error occurred while processing the audio file.');
-      console.error("Error clipping audio:", error);
+      console.error("Error processing audio:", error);
       setIsAdding(false);
     }
   };
 
+  // Function to optionally clip the audio
+  const clipAudio = (audioContext, audioBuffer, duration) => {
+    const maxDuration = Math.min(audioBuffer.duration, parseFloat(duration));
+    const numFrames = Math.floor(maxDuration * audioBuffer.sampleRate);
+
+    const clippedBuffer = audioContext.createBuffer(
+      audioBuffer.numberOfChannels,
+      numFrames,
+      audioBuffer.sampleRate
+    );
+
+    for (let ch = 0; ch < audioBuffer.numberOfChannels; ch++) {
+      const channelData = audioBuffer.getChannelData(ch);
+      clippedBuffer.getChannelData(ch).set(channelData.subarray(0, numFrames));
+    }
+
+    return clippedBuffer;
+  };
+
+  // Process audio with equalization, compression, and optional reverb
+  const processAudio = async (audioContext, audioBuffer) => {
+    const offlineContext = new OfflineAudioContext(
+      audioBuffer.numberOfChannels,
+      audioBuffer.length,
+      audioBuffer.sampleRate
+    );
+
+    const source = offlineContext.createBufferSource();
+    source.buffer = audioBuffer;
+
+    // Equalization
+    const lowShelf = offlineContext.createBiquadFilter();
+    lowShelf.type = 'lowshelf';
+    lowShelf.frequency.value = 200; // Boost bass
+    lowShelf.gain.value = 3;
+
+    const highShelf = offlineContext.createBiquadFilter();
+    highShelf.type = 'highshelf';
+    highShelf.frequency.value = 8000; // Reduce harshness
+    highShelf.gain.value = -3;
+
+    const midPeaking = offlineContext.createBiquadFilter();
+    midPeaking.type = 'peaking';
+    midPeaking.frequency.value = 3000; // Boost clarity
+    midPeaking.Q.value = 1;
+    midPeaking.gain.value = 2;
+
+    // Compression
+    const compressor = offlineContext.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-24, offlineContext.currentTime);
+    compressor.knee.setValueAtTime(30, offlineContext.currentTime);
+    compressor.ratio.setValueAtTime(12, offlineContext.currentTime);
+    compressor.attack.setValueAtTime(0.003, offlineContext.currentTime);
+    compressor.release.setValueAtTime(0.25, offlineContext.currentTime);
+
+    // Reverb (Optional)
+    const convolver = offlineContext.createConvolver();
+    try {
+      const response = await fetch('path/to/impulse-response.wav'); // Replace with an actual impulse response file URL
+      const reverbData = await response.arrayBuffer();
+      convolver.buffer = await offlineContext.decodeAudioData(reverbData);
+    } catch (error) {
+      console.warn("Reverb not applied: Impulse response file not found.");
+    }
+
+    //noise reduction
+    const highPassFilter = offlineContext.createBiquadFilter();
+    highPassFilter.type = 'highpass';
+    highPassFilter.frequency.value = 400; // Removes frequencies below 80 Hz
+  
+    // Low-pass filter to remove high-frequency noise (e.g., hiss)
+    const lowPassFilter = offlineContext.createBiquadFilter();
+    lowPassFilter.type = 'lowpass';
+    lowPassFilter.frequency.value = 8000; // Removes frequencies above 8 kHz
+
+
+    // Connect the nodes
+    source.connect(lowShelf)
+      .connect(midPeaking)
+      .connect(highShelf)
+      .connect(compressor)
+      .connect(highPassFilter)
+      .connect(lowPassFilter)
+      // .connect(convolver)
+      .connect(offlineContext.destination);
+
+    source.start();
+    return await offlineContext.startRendering();
+  };
+
+  // Encode processed buffer to WAV
   const encodeWAV = (audioBuffer) => {
     const numChannels = audioBuffer.numberOfChannels;
     const sampleRate = audioBuffer.sampleRate;
@@ -191,6 +272,7 @@ const App = () => {
 
     return buffer;
   };
+
 
   const handleDeleteVoice = (id) => {
     if (!id) console.error('No voice id provided');
@@ -328,7 +410,7 @@ const App = () => {
 
               {/* New clipping controls */}
               <div style={{ marginTop: '10px' }}>
-                <div style={{ flexDirection: 'row', display:'flex', alignItems: 'flex-start' }}>
+                <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'flex-start' }}>
                   <label htmlFor="clip-enabled" style={{ marginLeft: '5px' }}>Clip Audio?</label>
                   <input
                     type="checkbox"
@@ -352,6 +434,15 @@ const App = () => {
                     />
                   </>
                 )}
+                {/* <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'flex-start' }}>
+                  <label htmlFor="clip-enabled" style={{ marginLeft: '5px' }}>Reduce Noise (And Quality)?</label>
+                  <input
+                    type="checkbox"
+                    id="clip-enabled"
+                    checked={smoothAudio}
+                    onChange={(e) => setSmoothAudio(e.target.checked)}
+                  />
+                </div> */}
               </div>
 
               {userApiKey && (
@@ -362,7 +453,7 @@ const App = () => {
               <div style={{ paddingTop: 10 }}>
                 <text style={{ color: 'black', fontSize: 14 }}>{'Supports .m4a, .mp3 (not .wav but you can try...)'}</text>
                 <br />
-                <text style={{ color: 'black', fontSize: 14 }}>{'Seems to perform better with short clips, around 10 seconds.'}</text>
+                <text style={{ color: 'black', fontSize: 14 }}>{'Seems to perform better with clips around 20 seconds.'}</text>
               </div>
             </div>
           </div>
