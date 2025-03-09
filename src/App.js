@@ -316,7 +316,8 @@ const App = () => {
       for (const group of groups) {
         console.log(`Processing group: "${group}"`); // Debugging to see the groups
   
-        const response = await axios.post(`${apiUrl}/inference/deepinfra/tts`, {
+        // const response = await axios.post(`${apiUrl}/inference/deepinfra/tts`, {
+        const response = await axios.post(`https://api.deepinfra.com/v1/inference/Zyphra/Zonos-v0.1-transformer`, {
           text: group,
           voice_id: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? undefined : selectedVoice.voice_id,
           preset_voice: ['luna', 'aura', 'quartz'].includes(selectedVoice.voice_id) ? selectedVoice.voice_id : undefined,
@@ -617,7 +618,7 @@ const processedText = ${inputText}
 .replace(/[“”‘’]/g, '')
 .replace(/\\s+/g, ' ')
 .trim();
-fetch('${apiUrl}/inference/deepinfra/tts', {
+fetch('https://api.deepinfra.com/v1/inference/Zyphra/Zonos-v0.1-transformer', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
