@@ -32,7 +32,7 @@ DeepInfra's official demo app for the TTP AI model is functional but lacks usabi
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-repo-name/infra-ttp-dashboard.git
+   git clone https://github.com/bpeck81/deepinfravoiceclone.git
    ```
 
 2. Install dependencies:
